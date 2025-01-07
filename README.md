@@ -1,3 +1,85 @@
+# Pligg to Laravel 11 Migration
+
+This project is a modernization effort to migrate the Pligg Content Management System to Laravel 11. The migration preserves core functionality while modernizing the architecture using Laravel best practices.
+
+## Directory Structure Mapping
+
+### Core Directories
+
+| Pligg Directory | Laravel Directory | Purpose |
+|-----------------|------------------|----------|
+| `libs/`         | `app/Models`, `app/Services` | Core business logic, models, and services |
+| `modules/`      | `app/Modules` | Modular system extensions |
+| `widgets/`      | `app/View/Components` | UI components as Blade components |
+| `templates/`    | `resources/views` | View templates (migrated to Blade) |
+| `languages/`    | `lang/` | Multilingual configurations |
+| `plugins/`      | `app/Plugins` | Template and functionality extensions |
+| `admin/`        | `app/Http/Controllers/Admin` | Administrative interface |
+| `internal/`     | Various Laravel directories | Core system functionality |
+
+### Specific Component Mappings
+
+#### User Management (`libs/user.php`)
+- User model → `app/Models/User.php`
+- Authentication → Laravel Sanctum/Fortify
+- User profiles → `app/Models/Profile.php`
+- Social connections → `app/Models/Friendship.php`
+
+#### Content System
+- Links/Stories → `app/Models/Content.php`
+- Categories → `app/Models/Category.php`
+- Tags → `app/Models/Tag.php`
+- Comments → `app/Models/Comment.php`
+- Votes → `app/Models/Vote.php`
+
+#### Social Features
+- Groups → `app/Models/Group.php`
+- Messages → `app/Models/Message.php`
+- Karma system → `app/Services/KarmaService.php`
+
+#### Template System
+- Template_Lite → Laravel Blade
+- Custom plugins → Blade components/directives
+- Widget system → Blade components
+- Caching → Laravel view caching
+
+#### Module System
+- Module loading → Laravel service providers
+- Module routes → Route service providers
+- Module configs → Config files
+- Module hooks → Laravel events/listeners
+
+### Database Structure
+The database structure will be migrated using Laravel migrations and Eloquent ORM:
+- All tables modernized with timestamps
+- Foreign key constraints enforced
+- Pivot tables following Laravel conventions
+- Legacy table prefixes removed
+
+### Configuration
+- `settings.php` → `.env` and config files
+- Module configs → Individual config files
+- Cache settings → Laravel cache config
+
+## Development Guidelines
+
+1. Follow PSR-12 coding standards
+2. Use Laravel's built-in features over custom implementations
+3. Implement proper dependency injection
+4. Use Laravel's security features
+5. Write PHPUnit tests for all components
+
+## Migration Progress
+
+- [x] Initial Laravel 11 project setup
+- [x] Directory structure mapping
+- [ ] Database migration
+- [ ] Model creation
+- [ ] Authentication system
+- [ ] Template conversion
+- [ ] Module system adaptation
+- [ ] Testing and validation
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
