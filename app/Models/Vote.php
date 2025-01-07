@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int|null $voteable_id
  * @property string|null $voteable_type
  * @property int|null $link_id
+ * @property int|null $comment_id
  * @property string|null $type
  * @property int $value
  * @property float $karma
  * @property string|null $ip
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Link|null $link
+ * @property-read \App\Models\Comment|null $comment
  */
 class Vote extends Model
 {

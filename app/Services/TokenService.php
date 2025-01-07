@@ -34,13 +34,17 @@ class TokenService
         try {
             $decoded = JWT::decode($token, new Key($this->key, $this->algorithm));
 
+            $currentTime = time();
+            $expTime = (int)$decoded->exp;
+            $timestampExpiry = (int)$decoded->timestamp + $this->tokenLifetime;
+
             // Check if token has expired
-            if ($decoded->exp < time()) {
+            if ($expTime < $currentTime) {
                 return false;
             }
 
             // Validate timestamp is within acceptable range
-            if (($decoded->timestamp + $this->tokenLifetime) < time()) {
+            if ($timestampExpiry < $currentTime) {
                 return false;
             }
 

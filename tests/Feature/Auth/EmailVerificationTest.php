@@ -15,6 +15,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_verification_screen_can_be_rendered(): void
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->unverified()->create();
 
         $response = $this->actingAs($user)->get('/verify-email');
@@ -24,31 +25,44 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_can_be_verified(): void
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->unverified()->create();
 
         Event::fake();
 
+        /** @var int $userId */
+        $userId = $user->getKey();
+        /** @var string $userEmail */
+        $userEmail = $user->getAttribute('email');
+
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
+            ['id' => $userId, 'hash' => sha1($userEmail)]
         );
 
-        $response = $this->actingAs($user)->get($verificationUrl);
+        /** @var \App\Models\User|null $freshUser */
+        $freshUser = $user->fresh();
+        if (!$freshUser) {
+            $this->fail('User not found after creation');
+        }
+
+        $response = $this->actingAs($freshUser)->get($verificationUrl);
 
         Event::assertDispatched(Verified::class);
-        $this->assertTrue($user->fresh()->hasVerifiedEmail());
+        $this->assertTrue($freshUser->hasVerifiedEmail());
         $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
     }
 
     public function test_email_is_not_verified_with_invalid_hash(): void
     {
+        /** @var \App\Models\User $user */
         $user = User::factory()->unverified()->create();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1('wrong-email')]
+            ['id' => $user->getKey(), 'hash' => sha1('wrong-email')]
         );
 
         $this->actingAs($user)->get($verificationUrl);

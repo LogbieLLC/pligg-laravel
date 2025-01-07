@@ -6,10 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
+ * @property int $author_id
+ * @property string $status
+ * @property string $randkey
+ * @property int $category_id
+ * @property string $lang_id
+ * @property string $url
+ * @property string $url_title
+ * @property string $title
+ * @property string $title_url
+ * @property string $content
+ * @property string $summary
+ * @property string $tags
+ * @property int|null $group_id
+ * @property string|null $group_status
  * @property int $votes
  * @property int $comments
  * @property float $karma
+ * @property int $reports
+ * @property int $out_clicks
  * @property \DateTime $published_at
+ * @property-read \App\Models\User $author
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $additionalCategories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vote[] $votes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read \App\Models\Group|null $group
  */
 class Link extends Model
 {
@@ -33,6 +56,8 @@ class Link extends Model
         'votes',
         'comments',
         'karma',
+        'reports',
+        'out_clicks'
     ];
 
     protected $casts = [
@@ -40,32 +65,11 @@ class Link extends Model
         'votes' => 'integer',
         'comments' => 'integer',
         'karma' => 'decimal:2',
-    ];
-
-    protected $fillable = [
-        'author_id',
-        'status',
-        'randkey',
-        'category_id',
-        'lang_id',
-        'url',
-        'url_title',
-        'title',
-        'title_url',
-        'content',
-        'summary',
-        'tags',
-        'group_id',
-        'group_status',
-    ];
-
-    protected $casts = [
-        'published_at' => 'datetime',
-        'votes' => 'integer',
         'reports' => 'integer',
-        'comments' => 'integer',
-        'karma' => 'decimal:2',
         'out_clicks' => 'integer',
+        'author_id' => 'integer',
+        'category_id' => 'integer',
+        'group_id' => 'integer'
     ];
 
     // Relationships

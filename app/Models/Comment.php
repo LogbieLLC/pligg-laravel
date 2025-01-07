@@ -6,6 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
+ * @property int $id
+ * @property int $user_id
+ * @property int $link_id
+ * @property int|null $parent_id
+ * @property string $content
+ * @property int $votes
+ * @property float $karma
+ * @property string $status
+ * @property \DateTime $created_at
+ * @property \DateTime $updated_at
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Link $link
+ * @property-read \App\Models\Comment|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $replies
+ */
+
+/**
  * @property int $user_id
  * @property int $link_id
  * @property int|null $parent_id

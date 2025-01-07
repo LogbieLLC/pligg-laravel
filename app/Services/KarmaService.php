@@ -20,16 +20,29 @@ class KarmaService
             ->where('enabled', true)
             ->first();
 
-        if (!$formula) {
-            // Default formula if none exists
-            return $vote->value * ($vote->user->karma / 100);
+        /** @var float $userKarma */
+        $userKarma = config('pligg.default_karma', 1.0);
+        if ($vote->user !== null) {
+            $userKarma = (float)$vote->user->karma;
         }
 
-        // Execute the stored formula
+        if (!$formula) {
+            // Default formula if none exists
+            return $vote->value * ($userKarma / 100);
+        }
+
+        /** @var float $targetKarma */
+        $targetKarma = 0.0;
+        if ($vote->link !== null) {
+            $targetKarma = (float)$vote->link->karma;
+        } elseif ($vote->comment !== null && $vote->comment->karma !== null) {
+            $targetKarma = (float)$vote->comment->karma;
+        }
+
         return $this->executeFormula($formula->formula, [
             'vote_value' => $vote->value,
-            'user_karma' => $vote->user->karma,
-            'target_karma' => $vote->link?->karma ?? $vote->comment?->karma ?? 0,
+            'user_karma' => $userKarma,
+            'target_karma' => $targetKarma,
         ]);
     }
 
@@ -61,8 +74,11 @@ class KarmaService
         $comment->karma = $totalKarma;
         $comment->save();
 
-        // Update author's karma
-        $comment->user->updateKarma($totalKarma / 5); // Author gets 20% of comment karma
+        /** @var \App\Models\User|null $author */
+        $author = $comment->user()->first();
+        if ($author !== null) {
+            $author->updateKarma($totalKarma / 5); // Author gets 20% of comment karma
+        }
     }
 
     /**
@@ -72,7 +88,7 @@ class KarmaService
     {
         $expression = $formula;
         foreach ($variables as $key => $value) {
-            $expression = str_replace('{' . $key . '}', (float) $value, $expression);
+            $expression = str_replace('{' . $key . '}', (string)(float)$value, $expression);
         }
 
         try {

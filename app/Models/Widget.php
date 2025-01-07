@@ -5,24 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $folder
+ * @property float $version
+ * @property float $latest_version
+ * @property bool $enabled
+ * @property string|null $homepage_url
+ * @property string|null $requires
+ * @property string|null $description
+ * @property string|null $created_by
+ * @property string|null $column
+ * @property int|null $position
+ * @property string|null $display
+ * @property \DateTime $created_at
+ * @property \DateTime $updated_at
+ */
 class Widget extends Model
 {
     use HasFactory;
-
-    /**
-     * @property string $name
-     * @property string $folder
-     * @property string $version
-     * @property string $latest_version
-     * @property bool $enabled
-     * @property string|null $homepage_url
-     * @property string|null $requires
-     * @property string|null $description
-     * @property string|null $created_by
-     * @property string|null $column
-     * @property int|null $position
-     * @property string|null $display
-     */
     protected $fillable = [
         'name',
         'folder',
@@ -38,11 +40,19 @@ class Widget extends Model
         'display',
     ];
 
+    protected $attributes = [
+        'version' => 1.0,
+        'latest_version' => 1.0,
+        'enabled' => false,
+    ];
+
     protected $casts = [
         'enabled' => 'boolean',
         'version' => 'decimal:1',
         'latest_version' => 'decimal:1',
         'position' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     // Scopes

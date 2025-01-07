@@ -45,9 +45,9 @@ class StatelessCsrfMiddleware
         $response->headers->set('X-CSRF-TOKEN', $newToken);
 
         // Also set token in meta tag for Blade views
-        if (!$request->expectsJson() && method_exists($response, 'getContent')) {
+        if (!$request->expectsJson() && $response instanceof \Symfony\Component\HttpFoundation\Response) {
             $content = $response->getContent();
-            if (is_string($content)) {
+            if (is_string($content) && str_contains($content, '</head>')) {
                 $metaTag = '<meta name="csrf-token" content="' . $newToken . '">';
                 $content = preg_replace('/<\/head>/', $metaTag . "\n</head>", $content);
                 $response->setContent($content);
