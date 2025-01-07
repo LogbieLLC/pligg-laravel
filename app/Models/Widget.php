@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Widget extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'folder',
