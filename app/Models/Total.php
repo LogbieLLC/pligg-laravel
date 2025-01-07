@@ -23,19 +23,13 @@ class Total extends Model
     ];
 
     // Methods
-    public function increment($column = null, $amount = 1, array $extra = []): int
+    public function increment($column = 'total', $amount = 1, array $extra = []): int
     {
-        if ($column === null) {
-            $column = 'total';
-        }
         return parent::increment($column, $amount, $extra);
     }
 
-    public function decrement($column = null, $amount = 1, array $extra = []): int
+    public function decrement($column = 'total', $amount = 1, array $extra = []): int
     {
-        if ($column === null) {
-            $column = 'total';
-        }
         return parent::decrement($column, $amount, $extra);
     }
 }

@@ -5,28 +5,42 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $votes
+ * @property int $comments
+ * @property float $karma
+ * @property \DateTime $published_at
+ */
 class Link extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'author_id',
-        'category_id',
-        'title',
-        'url',
-        'content',
         'status',
+        'randkey',
+        'category_id',
+        'lang_id',
+        'url',
+        'url_title',
+        'title',
+        'title_url',
+        'content',
+        'summary',
+        'tags',
+        'group_id',
+        'group_status',
         'votes',
         'comments',
         'karma',
-        'published_at'
     ];
 
     protected $casts = [
+        'published_at' => 'datetime',
         'votes' => 'integer',
         'comments' => 'integer',
         'karma' => 'decimal:2',
-        'published_at' => 'datetime'
     ];
-    use HasFactory;
 
     protected $fillable = [
         'author_id',

@@ -5,29 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $count
+ * @property string $ip
+ * @property string $username
+ * @property \DateTime|null $last_attempt
+ */
 class LoginAttempt extends Model
 {
-    protected $fillable = [
-        'ip',
-        'username',
-        'count',
-        'last_attempt'
-    ];
-
-    protected $casts = [
-        'count' => 'integer',
-        'last_attempt' => 'datetime'
-    ];
     use HasFactory;
 
     protected $fillable = [
         'username',
         'ip',
         'count',
+        'last_attempt',
     ];
 
     protected $casts = [
         'count' => 'integer',
+        'last_attempt' => 'datetime',
     ];
 
     // Scopes

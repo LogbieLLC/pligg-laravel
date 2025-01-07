@@ -5,19 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string $role
+ * @property string $status
+ */
 class GroupMember extends Model
 {
-    protected $fillable = [
-        'group_id',
-        'user_id',
-        'role',
-        'status'
-    ];
-
-    protected $casts = [
-        'role' => 'string',
-        'status' => 'string'
-    ];
     use HasFactory;
 
     protected $fillable = [
@@ -25,6 +18,11 @@ class GroupMember extends Model
         'group_id',
         'role',
         'status',
+    ];
+
+    protected $casts = [
+        'role' => 'string',
+        'status' => 'string',
     ];
 
     // Relationships

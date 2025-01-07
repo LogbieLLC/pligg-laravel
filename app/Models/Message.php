@@ -5,21 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property bool $read
+ * @property \DateTime|null $read_at
+ * @property string $title
+ * @property string $body
+ */
 class Message extends Model
 {
-    protected $fillable = [
-        'from_user_id',
-        'to_user_id',
-        'subject',
-        'content',
-        'read',
-        'read_at'
-    ];
-
-    protected $casts = [
-        'read' => 'boolean',
-        'read_at' => 'datetime'
-    ];
     use HasFactory;
 
     protected $fillable = [
@@ -28,6 +21,7 @@ class Message extends Model
         'title',
         'body',
         'read',
+        'read_at',
     ];
 
     protected $casts = [

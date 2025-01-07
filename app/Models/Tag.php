@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string $words
+ * @property string $lang
+ */
 class Tag extends Model
 {
     use HasFactory;
