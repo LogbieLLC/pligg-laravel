@@ -5,25 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $user_id
+ * @property int $link_id
+ * @property int|null $parent_id
+ * @property string $content
+ * @property int $votes
+ * @property float $karma
+ * @property string $status
+ * @property bool $reported
+ * @property string $randkey
+ */
 class Comment extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'link_id',
-        'parent_id',
-        'content',
-        'votes',
-        'karma',
-        'status',
-        'reported'
-    ];
-
-    protected $casts = [
-        'votes' => 'integer',
-        'karma' => 'decimal:2',
-        'reported' => 'boolean',
-        'parent_id' => 'integer'
-    ];
     use HasFactory;
 
     protected $fillable = [
@@ -33,11 +27,16 @@ class Comment extends Model
         'user_id',
         'content',
         'status',
+        'votes',
+        'karma',
+        'reported'
     ];
 
     protected $casts = [
         'karma' => 'decimal:2',
         'votes' => 'integer',
+        'reported' => 'boolean',
+        'parent_id' => 'integer'
     ];
 
     // Relationships

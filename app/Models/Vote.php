@@ -5,26 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $user_id
+ * @property int|null $voteable_id
+ * @property string|null $voteable_type
+ * @property int|null $link_id
+ * @property string|null $type
+ * @property int $value
+ * @property float $karma
+ * @property string|null $ip
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Link|null $link
+ */
 class Vote extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'voteable_id',
         'voteable_type',
-        'value',
-        'karma'
-    ];
-
-    protected $casts = [
-        'value' => 'integer',
-        'karma' => 'decimal:2'
-    ];
-    use HasFactory;
-
-    protected $fillable = [
         'type',
         'link_id',
-        'user_id',
         'value',
         'karma',
         'ip',
@@ -32,7 +34,10 @@ class Vote extends Model
 
     protected $casts = [
         'value' => 'integer',
-        'karma' => 'integer',
+        'karma' => 'decimal:2',
+        'user_id' => 'integer',
+        'link_id' => 'integer',
+        'voteable_id' => 'integer'
     ];
 
     // Relationships

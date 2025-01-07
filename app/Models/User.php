@@ -7,6 +7,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property string $login
+ * @property string $level
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property float $karma
+ * @property string|null $url
+ * @property string|null $facebook
+ * @property string|null $twitter
+ * @property string|null $linkedin
+ * @property string|null $googleplus
+ * @property string|null $skype
+ * @property string|null $pinterest
+ * @property string|null $public_email
+ * @property string|null $avatar_source
+ * @property string|null $location
+ * @property string|null $occupation
+ * @property string|null $categories
+ * @property string $language
+ * @property bool $enabled
+ * @property \DateTime|null $last_login
+ * @property \DateTime|null $email_verified_at
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */

@@ -9,6 +9,20 @@ class Widget extends Model
 {
     use HasFactory;
 
+    /**
+     * @property string $name
+     * @property string $folder
+     * @property string $version
+     * @property string $latest_version
+     * @property bool $enabled
+     * @property string|null $homepage_url
+     * @property string|null $requires
+     * @property string|null $description
+     * @property string|null $created_by
+     * @property string|null $column
+     * @property int|null $position
+     * @property string|null $display
+     */
     protected $fillable = [
         'name',
         'folder',
@@ -19,29 +33,15 @@ class Widget extends Model
         'requires',
         'description',
         'created_by',
-    ];
-
-    protected $casts = [
-        'enabled' => 'boolean',
-        'version' => 'string',
-        'latest_version' => 'string',
-    ];
-
-    protected $fillable = [
-        'name',
-        'version',
-        'latest_version',
-        'folder',
-        'enabled',
         'column',
         'position',
         'display',
     ];
 
     protected $casts = [
+        'enabled' => 'boolean',
         'version' => 'decimal:1',
         'latest_version' => 'decimal:1',
-        'enabled' => 'boolean',
         'position' => 'integer',
     ];
 

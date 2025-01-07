@@ -5,28 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string $type
+ * @property string $formula
+ * @property bool $enabled
+ * @property string $title
+ */
 class Formula extends Model
 {
-    protected $fillable = [
-        'type',
-        'formula',
-        'enabled'
-    ];
-
-    protected $casts = [
-        'enabled' => 'boolean'
-    ];
     use HasFactory;
 
     protected $fillable = [
         'type',
-        'enabled',
-        'title',
         'formula',
+        'enabled',
+        'title'
     ];
 
     protected $casts = [
         'enabled' => 'boolean',
+        'type' => 'string',
+        'formula' => 'string'
     ];
 
     // Scopes

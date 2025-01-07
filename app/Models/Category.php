@@ -5,6 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int|null $parent_id
+ * @property string $name
+ * @property string $safe_name
+ * @property int $rgt
+ * @property int $lft
+ * @property bool $enabled
+ * @property int $order
+ * @property string $description
+ * @property string $keywords
+ * @property string $author_level
+ * @property int|null $author_group
+ * @property int $votes
+ * @property float $karma
+ * @property string $lang
+ */
 class Category extends Model
 {
     use HasFactory;

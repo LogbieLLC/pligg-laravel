@@ -5,20 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $creator_id
+ * @property string $status
+ * @property int $members_count
+ * @property string $safename
+ * @property string $name
+ * @property string $description
+ * @property string $privacy
+ * @property string|null $avatar
+ * @property int $vote_to_publish
+ * @property string|null $field1
+ * @property string|null $field2
+ * @property string|null $field3
+ * @property string|null $field4
+ * @property string|null $field5
+ * @property string|null $field6
+ * @property bool $notify_email
+ */
 class Group extends Model
 {
-    protected $fillable = [
-        'name',
-        'description',
-        'privacy',
-        'members_count',
-        'creator_id'
-    ];
-
-    protected $casts = [
-        'members_count' => 'integer',
-        'privacy' => 'string'
-    ];
     use HasFactory;
 
     protected $fillable = [
@@ -44,6 +50,8 @@ class Group extends Model
         'members_count' => 'integer',
         'vote_to_publish' => 'integer',
         'notify_email' => 'boolean',
+        'creator_id' => 'integer',
+        'privacy' => 'string'
     ];
 
     // Relationships
