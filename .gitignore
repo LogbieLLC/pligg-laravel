@@ -21,3 +21,10 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/.vagrant
+
+# Laravel specific
+bootstrap/compiled.php
+app/storage/
+public_html/storage
+public_html/hot
