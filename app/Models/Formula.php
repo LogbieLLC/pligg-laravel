@@ -23,9 +23,7 @@ class Formula extends Model
     ];
 
     protected $casts = [
-        'enabled' => 'boolean',
-        'type' => 'string',
-        'formula' => 'string'
+        'enabled' => 'boolean'
     ];
 
     // Scopes

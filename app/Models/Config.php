@@ -39,8 +39,6 @@ class Config extends Model
     ];
 
     protected $casts = [
-        'var_value' => 'string',
-        'var_defaultvalue' => 'string',
         'var_enclosein' => 'boolean',
     ];
 

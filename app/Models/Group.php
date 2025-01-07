@@ -50,8 +50,7 @@ class Group extends Model
         'members_count' => 'integer',
         'vote_to_publish' => 'integer',
         'notify_email' => 'boolean',
-        'creator_id' => 'integer',
-        'privacy' => 'string'
+        'creator_id' => 'integer'
     ];
 
     // Relationships

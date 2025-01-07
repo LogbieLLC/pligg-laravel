@@ -11,7 +11,7 @@ class SecurityHeadersMiddleware
     {
         $response = $next($request);
 
-        $response->headers->set('Content-Security-Policy', 
+        $response->headers->set('Content-Security-Policy',
             "default-src 'self'; " .
             "script-src 'self' https://code.jquery.com; " .
             "style-src 'self' 'unsafe-inline'; " .
