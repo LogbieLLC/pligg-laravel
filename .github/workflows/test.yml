@@ -15,12 +15,18 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: test
-          MYSQL_USER: test
-          MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: test
+          MYSQL_ALLOW_EMPTY_PASSWORD: no
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_HOST: '%'
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -ptest"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+          --default-authentication-plugin=mysql_native_password
 
     steps:
     - uses: actions/checkout@v4
@@ -52,37 +58,25 @@ jobs:
       run: vendor/bin/phpcs --standard=PSR12 app tests
 
     - name: Setup Database
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: test
-        DB_USERNAME: root
-        DB_PASSWORD: test
-        MYSQL_ROOT_PASSWORD: test
       run: |
         mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "DROP DATABASE IF EXISTS test;"
         mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "CREATE DATABASE test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "GRANT ALL PRIVILEGES ON test.* TO 'root'@'%' WITH GRANT OPTION;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "FLUSH PRIVILEGES;"
+
+    - name: Set environment variables
+      run: |
+        echo "DB_CONNECTION=mysql" >> $GITHUB_ENV
+        echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
+        echo "DB_PORT=3306" >> $GITHUB_ENV
+        echo "DB_DATABASE=test" >> $GITHUB_ENV
+        echo "DB_USERNAME=root" >> $GITHUB_ENV
+        echo "DB_PASSWORD=test" >> $GITHUB_ENV
 
     - name: Run Database Migrations
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: test
-        DB_USERNAME: root
-        DB_PASSWORD: test
-      run: |
-        php artisan migrate:fresh --seed --force
+      run: php artisan migrate:fresh --seed --force
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: test
-        DB_USERNAME: root
-        DB_PASSWORD: test
       run: vendor/bin/phpunit --coverage-clover coverage.xml
 
     - name: Upload coverage to Codecov
