@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Total extends Model
 {
@@ -22,15 +23,19 @@ class Total extends Model
     ];
 
     // Methods
-    public function increment(int $amount = 1): void
+    public function increment($column = null, $amount = 1, array $extra = []): int
     {
-        $this->total += $amount;
-        $this->save();
+        if ($column === null) {
+            $column = 'total';
+        }
+        return parent::increment($column, $amount, $extra);
     }
 
-    public function decrement(int $amount = 1): void
+    public function decrement($column = null, $amount = 1, array $extra = []): int
     {
-        $this->total -= $amount;
-        $this->save();
+        if ($column === null) {
+            $column = 'total';
+        }
+        return parent::decrement($column, $amount, $extra);
     }
 }

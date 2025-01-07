@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Formula extends Model
 {
+    protected $fillable = [
+        'type',
+        'formula',
+        'enabled'
+    ];
+
+    protected $casts = [
+        'enabled' => 'boolean'
+    ];
     use HasFactory;
 
     protected $fillable = [

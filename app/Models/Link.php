@@ -7,6 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Link extends Model
 {
+    protected $fillable = [
+        'author_id',
+        'category_id',
+        'title',
+        'url',
+        'content',
+        'status',
+        'votes',
+        'comments',
+        'karma',
+        'published_at'
+    ];
+
+    protected $casts = [
+        'votes' => 'integer',
+        'comments' => 'integer',
+        'karma' => 'decimal:2',
+        'published_at' => 'datetime'
+    ];
     use HasFactory;
 
     protected $fillable = [

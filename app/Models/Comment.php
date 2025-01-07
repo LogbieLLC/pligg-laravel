@@ -7,6 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'link_id',
+        'parent_id',
+        'content',
+        'votes',
+        'karma',
+        'status',
+        'reported'
+    ];
+
+    protected $casts = [
+        'votes' => 'integer',
+        'karma' => 'decimal:2',
+        'reported' => 'boolean',
+        'parent_id' => 'integer'
+    ];
     use HasFactory;
 
     protected $fillable = [

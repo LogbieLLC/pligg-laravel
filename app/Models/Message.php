@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
 {
+    protected $fillable = [
+        'from_user_id',
+        'to_user_id',
+        'subject',
+        'content',
+        'read',
+        'read_at'
+    ];
+
+    protected $casts = [
+        'read' => 'boolean',
+        'read_at' => 'datetime'
+    ];
     use HasFactory;
 
     protected $fillable = [

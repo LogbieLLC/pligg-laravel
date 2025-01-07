@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LoginAttempt extends Model
 {
+    protected $fillable = [
+        'ip',
+        'username',
+        'count',
+        'last_attempt'
+    ];
+
+    protected $casts = [
+        'count' => 'integer',
+        'last_attempt' => 'datetime'
+    ];
     use HasFactory;
 
     protected $fillable = [

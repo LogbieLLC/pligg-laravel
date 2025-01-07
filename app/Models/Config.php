@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Config extends Model
 {
+    protected $fillable = [
+        'var_page',
+        'var_name',
+        'var_value',
+        'var_defaultvalue',
+        'var_optiontext',
+        'var_title',
+        'var_desc',
+        'var_method',
+        'var_enclosein'
+    ];
+
+    protected $casts = [
+        'var_value' => 'string',
+        'var_defaultvalue' => 'string'
+    ];
     use HasFactory;
 
     protected $primaryKey = 'var_id';

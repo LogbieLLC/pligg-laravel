@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GroupMember extends Model
 {
+    protected $fillable = [
+        'group_id',
+        'user_id',
+        'role',
+        'status'
+    ];
+
+    protected $casts = [
+        'role' => 'string',
+        'status' => 'string'
+    ];
     use HasFactory;
 
     protected $fillable = [

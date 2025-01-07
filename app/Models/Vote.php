@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vote extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'voteable_id',
+        'voteable_type',
+        'value',
+        'karma'
+    ];
+
+    protected $casts = [
+        'value' => 'integer',
+        'karma' => 'decimal:2'
+    ];
     use HasFactory;
 
     protected $fillable = [

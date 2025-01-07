@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Group extends Model
 {
+    protected $fillable = [
+        'name',
+        'description',
+        'privacy',
+        'members_count',
+        'creator_id'
+    ];
+
+    protected $casts = [
+        'members_count' => 'integer',
+        'privacy' => 'string'
+    ];
     use HasFactory;
 
     protected $fillable = [

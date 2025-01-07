@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class PanelTools extends Component
 {
-    public function render(): \Illuminate\View\View
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('components.panel-tools');
     }

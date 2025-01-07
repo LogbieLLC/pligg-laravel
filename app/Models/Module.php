@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Module extends Model
 {
+    protected $fillable = [
+        'name',
+        'folder',
+        'version',
+        'latest_version',
+        'enabled',
+        'weight'
+    ];
+
+    protected $casts = [
+        'enabled' => 'boolean',
+        'weight' => 'integer',
+        'version' => 'string',
+        'latest_version' => 'string'
+    ];
     use HasFactory;
 
     protected $fillable = [
