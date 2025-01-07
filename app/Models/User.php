@@ -18,9 +18,25 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'login',
+        'level',
         'name',
         'email',
         'password',
+        'karma',
+        'url',
+        'facebook',
+        'twitter',
+        'linkedin',
+        'googleplus',
+        'skype',
+        'pinterest',
+        'public_email',
+        'avatar_source',
+        'location',
+        'occupation',
+        'categories',
+        'language',
     ];
 
     /**
@@ -31,6 +47,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'reset_code',
     ];
 
     /**
@@ -42,7 +59,97 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login' => 'datetime',
+            'last_reset_request' => 'datetime',
+            'karma' => 'decimal:2',
+            'enabled' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    // Relationships
+    public function links()
+    {
+        return $this->hasMany(Link::class, 'author_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function savedLinks()
+    {
+        return $this->belongsToMany(Link::class, 'saved_links')->withTimestamps();
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'from_user_id', 'to_user_id')->withTimestamps();
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'to_user_id', 'from_user_id')->withTimestamps();
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_members')
+                    ->withPivot('role', 'status')
+                    ->withTimestamps();
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'from_user_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'to_user_id');
+    }
+
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('enabled', true);
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('level', 'admin');
+    }
+
+    public function scopeModerators($query)
+    {
+        return $query->where('level', 'moderator');
+    }
+
+    // Methods
+    public function isAdmin(): bool
+    {
+        return $this->level === 'admin';
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->level === 'moderator';
+    }
+
+    public function canModerate(): bool
+    {
+        return in_array($this->level, ['admin', 'moderator']);
+    }
+
+    public function updateKarma(float $amount): void
+    {
+        $this->karma += $amount;
+        $this->save();
     }
 }
