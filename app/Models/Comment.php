@@ -87,3 +87,4 @@ class Comment extends Model
         $this->karma += $amount;
         $this->save();
     }
+}

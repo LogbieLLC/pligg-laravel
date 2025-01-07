@@ -71,3 +71,4 @@ class Vote extends Model
         // This will be replaced by KarmaService logic
         return $this->value * ($this->user->karma / 100);
     }
+}

@@ -15,7 +15,8 @@ class KarmaService
      */
     public function calculateVoteKarma(Vote $vote): float
     {
-        $formula = Formula::where('type', 'karma')
+        $formula = Formula::query()
+            ->where('type', 'karma')
             ->where('enabled', true)
             ->first();
 
@@ -77,7 +78,7 @@ class KarmaService
         try {
             return eval('return ' . $expression . ';');
         } catch (\Throwable $e) {
-            \Log::error('Error executing karma formula: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Error executing karma formula: ' . $e->getMessage());
             return 0;
         }
     }

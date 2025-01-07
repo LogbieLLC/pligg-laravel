@@ -115,3 +115,4 @@ class Link extends Model
     {
         $this->increment('out_clicks');
     }
+}

@@ -38,7 +38,7 @@ class CsrfTokenService
     {
         try {
             $decoded = JWT::decode($token, new Key($this->key, $this->algorithm));
-            
+
             // Check if token has expired
             if ($decoded->exp < now()->timestamp) {
                 return false;
@@ -57,7 +57,7 @@ class CsrfTokenService
     {
         try {
             $decoded = JWT::decode($token, new Key($this->key, $this->algorithm));
-            
+
             // Create new token with same random string but updated timestamps
             $payload = [
                 'random' => $decoded->random,

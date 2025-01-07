@@ -38,12 +38,12 @@ class StatelessCsrfMiddleware
 
         // Generate new token for the next request
         $newToken = $this->csrfTokenService->refresh($token);
-        
+
         $response = $next($request);
-        
+
         // Add new token to response headers
         $response->headers->set('X-CSRF-TOKEN', $newToken);
-        
+
         // Also set token in meta tag for Blade views
         if (!$request->expectsJson() && method_exists($response, 'getContent')) {
             $content = $response->getContent();

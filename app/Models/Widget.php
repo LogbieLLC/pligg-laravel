@@ -3,10 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Widget extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'folder',
+        'version',
+        'latest_version',
+        'enabled',
+        'homepage_url',
+        'requires',
+        'description',
+        'created_by',
+    ];
+
+    protected $casts = [
+        'enabled' => 'boolean',
+        'version' => 'string',
+        'latest_version' => 'string',
+    ];
 
     protected $fillable = [
         'name',

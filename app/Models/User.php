@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -51,21 +52,19 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'last_login' => 'datetime',
-            'last_reset_request' => 'datetime',
-            'karma' => 'decimal:2',
-            'enabled' => 'boolean',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'last_login' => 'datetime',
+        'last_reset_request' => 'datetime',
+        'karma' => 'decimal:2',
+        'enabled' => 'boolean',
+        'password' => 'hashed',
+        'level' => 'string',
+    ];
 
     // Relationships
     public function links()

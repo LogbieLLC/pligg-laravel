@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tag extends Model
 {
@@ -29,9 +30,9 @@ class Tag extends Model
     // Methods
     public function updateCache(): void
     {
-        TagCache::updateOrCreate(
+        TagCache::query()->updateOrCreate(
             ['tag_words' => $this->words],
-            ['count' => Tag::where('words', $this->words)->count()]
+            ['count' => static::query()->where('words', $this->words)->count()]
         );
     }
 }

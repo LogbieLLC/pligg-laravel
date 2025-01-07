@@ -85,7 +85,7 @@ class Category extends Model
     {
         $path = [$this->name];
         $category = $this;
-        
+
         while ($category->parent_id !== 0) {
             $category = $category->parent;
             array_unshift($path, $category->name);
@@ -93,3 +93,4 @@ class Category extends Model
 
         return implode(' / ', $path);
     }
+}
