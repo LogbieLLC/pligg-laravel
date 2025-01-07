@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('formulas');
         Schema::create('formulas', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['report', 'karma'])->default('karma');

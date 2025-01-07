@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('login_attempts');
         Schema::create('login_attempts', function (Blueprint $table) {
             $table->id();
             $table->string('username', 100)->nullable();

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('tag_cache');
         Schema::create('tag_cache', function (Blueprint $table) {
             $table->string('tag_words', 64);
             $table->integer('count')->default(0);

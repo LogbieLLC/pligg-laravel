@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('tags');
         Schema::create('tags', function (Blueprint $table) {
             $table->foreignId('link_id')->constrained('links')->onDelete('cascade');
             $table->string('lang', 4)->default('en');

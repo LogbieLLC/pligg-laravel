@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('redirects');
         Schema::create('redirects', function (Blueprint $table) {
             $table->id();
             $table->string('old_path', 255);

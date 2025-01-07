@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('totals');
         Schema::create('totals', function (Blueprint $table) {
             $table->string('name', 10)->primary();
             $table->integer('total')->default(0);

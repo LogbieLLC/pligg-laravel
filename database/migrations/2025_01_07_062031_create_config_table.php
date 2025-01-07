@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('config');
         Schema::create('config', function (Blueprint $table) {
             $table->string('var_id', 32)->primary();
             $table->string('var_page', 50);

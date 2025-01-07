@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('votes');
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['links', 'comments'])->default('links');

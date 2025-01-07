@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('group_shared');
         Schema::create('group_shared', function (Blueprint $table) {
             $table->id();
             $table->foreignId('link_id')->constrained('links')->onDelete('cascade');

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('messages');
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('from_user_id')->constrained('users')->onDelete('cascade');
