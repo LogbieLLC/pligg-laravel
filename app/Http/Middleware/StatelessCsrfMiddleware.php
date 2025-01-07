@@ -47,9 +47,11 @@ class StatelessCsrfMiddleware
         // Also set token in meta tag for Blade views
         if (!$request->expectsJson() && method_exists($response, 'getContent')) {
             $content = $response->getContent();
-            $metaTag = '<meta name="csrf-token" content="' . $newToken . '">';
-            $content = preg_replace('/<\/head>/', $metaTag . "\n</head>", $content);
-            $response->setContent($content);
+            if (is_string($content)) {
+                $metaTag = '<meta name="csrf-token" content="' . $newToken . '">';
+                $content = preg_replace('/<\/head>/', $metaTag . "\n</head>", $content);
+                $response->setContent($content);
+            }
         }
 
         return $response;
