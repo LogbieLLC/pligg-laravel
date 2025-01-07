@@ -16,18 +16,23 @@ jobs:
         env:
           MYSQL_DATABASE: test
           MYSQL_ROOT_PASSWORD: test
-          MYSQL_ALLOW_EMPTY_PASSWORD: no
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
           MYSQL_HOST: 127.0.0.1
           MYSQL_ROOT_HOST: '%'
-          MYSQL_ROOT_USER: root
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -ptest"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-        command: --default-authentication-plugin=mysql_native_password
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -ptest"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        command: >-
+          mysqld
+          --default-authentication-plugin=mysql_native_password
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
 
     steps:
     - uses: actions/checkout@v4
