@@ -1,0 +1,85 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
+          MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        coverage: xdebug
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, pdo_mysql
+        tools: composer:v2
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Generate key
+      run: php artisan key:generate
+
+    - name: Directory Permissions
+      run: chmod -R 777 storage bootstrap/cache
+
+    - name: Run PHPStan
+      run: vendor/bin/phpstan analyse
+
+    - name: Run PHP_CodeSniffer
+      run: vendor/bin/phpcs --standard=PSR12 app tests
+
+    - name: Setup Database
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "DROP DATABASE IF EXISTS test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "CREATE DATABASE test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "GRANT ALL PRIVILEGES ON test.* TO 'root'@'%' WITH GRANT OPTION;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "FLUSH PRIVILEGES;"
+
+    - name: Set environment variables
+      run: |
+        echo "DB_CONNECTION=mysql" >> $GITHUB_ENV
+        echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
+        echo "DB_PORT=3306" >> $GITHUB_ENV
+        echo "DB_DATABASE=test" >> $GITHUB_ENV
+        echo "DB_USERNAME=root" >> $GITHUB_ENV
+        echo "DB_PASSWORD=test" >> $GITHUB_ENV
+
+    - name: Run Database Migrations
+      run: php artisan migrate:fresh --seed --force
+
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      run: vendor/bin/phpunit --coverage-clover coverage.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        fail_ci_if_error: true
