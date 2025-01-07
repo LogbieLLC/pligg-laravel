@@ -152,4 +152,42 @@ class User extends Authenticatable
         $this->karma += $amount;
         $this->save();
     }
+
+    public function canVote(): bool
+    {
+        return $this->enabled && $this->karma >= config('pligg.min_karma_vote', 0);
+    }
+
+    public function canSubmitLinks(): bool
+    {
+        return $this->enabled && $this->karma >= config('pligg.min_karma_submit', 0);
+    }
+
+    public function canComment(): bool
+    {
+        return $this->enabled && $this->karma >= config('pligg.min_karma_comment', 0);
+    }
+
+    public function updateLastLogin(): void
+    {
+        $this->last_login = now();
+        $this->save();
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
+        $this->save();
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+        $this->save();
+    }
 }

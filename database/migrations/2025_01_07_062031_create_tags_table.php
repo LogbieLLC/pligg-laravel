@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('lang', 4)->default('en');
             $table->string('words', 64);
             $table->timestamps();
+            
+            // Create composite primary key
+            $table->primary(['link_id', 'lang', 'words']);
 
             $table->unique(['link_id', 'lang', 'words']);
             $table->index(['lang', 'created_at']);
