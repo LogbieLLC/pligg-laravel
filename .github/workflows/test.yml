@@ -56,10 +56,21 @@ jobs:
         DB_PORT: 3306
         DB_DATABASE: pligg_test
         DB_USERNAME: root
-        DB_PASSWORD: password
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        mysql -h 127.0.0.1 -P 3306 -u root -ppassword -e "DROP DATABASE IF EXISTS pligg_test;"
-        mysql -h 127.0.0.1 -P 3306 -u root -ppassword -e "CREATE DATABASE pligg_test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -p${{ secrets.DB_PASSWORD }} -e "DROP DATABASE IF EXISTS pligg_test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -p${{ secrets.DB_PASSWORD }} -e "CREATE DATABASE pligg_test;"
+
+    - name: Run Database Migrations
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: pligg_test
+        DB_USERNAME: root
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        php artisan migrate:fresh --seed --force
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
@@ -68,7 +79,7 @@ jobs:
         DB_PORT: 3306
         DB_DATABASE: pligg_test
         DB_USERNAME: root
-        DB_PASSWORD: password
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: vendor/bin/phpunit --coverage-clover coverage.xml
 
     - name: Upload coverage to Codecov

@@ -62,7 +62,6 @@ return [
                 PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci",
                 PDO::ATTR_PERSISTENT => false,
-                PDO::MYSQL_ATTR_SSL_MODE => 1,
             ]) : [],
         ],
 
