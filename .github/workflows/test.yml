@@ -14,8 +14,10 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_DATABASE: pligg_test
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
+          MYSQL_ROOT_PASSWORD: test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -54,22 +56,22 @@ jobs:
         DB_CONNECTION: mysql
         DB_HOST: 127.0.0.1
         DB_PORT: 3306
-        DB_DATABASE: pligg_test
+        DB_DATABASE: test
         DB_USERNAME: root
-        DB_PASSWORD: password
-        MYSQL_ROOT_PASSWORD: password
+        DB_PASSWORD: test
+        MYSQL_ROOT_PASSWORD: test
       run: |
-        mysql -h 127.0.0.1 -P 3306 -u root -ppassword -e "DROP DATABASE IF EXISTS pligg_test;"
-        mysql -h 127.0.0.1 -P 3306 -u root -ppassword -e "CREATE DATABASE pligg_test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "DROP DATABASE IF EXISTS test;"
+        mysql -h 127.0.0.1 -P 3306 -u root -ptest -e "CREATE DATABASE test;"
 
     - name: Run Database Migrations
       env:
         DB_CONNECTION: mysql
         DB_HOST: 127.0.0.1
         DB_PORT: 3306
-        DB_DATABASE: pligg_test
+        DB_DATABASE: test
         DB_USERNAME: root
-        DB_PASSWORD: password
+        DB_PASSWORD: test
       run: |
         php artisan migrate:fresh --seed --force
 
@@ -78,9 +80,9 @@ jobs:
         DB_CONNECTION: mysql
         DB_HOST: 127.0.0.1
         DB_PORT: 3306
-        DB_DATABASE: pligg_test
+        DB_DATABASE: test
         DB_USERNAME: root
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_PASSWORD: test
       run: vendor/bin/phpunit --coverage-clover coverage.xml
 
     - name: Upload coverage to Codecov
