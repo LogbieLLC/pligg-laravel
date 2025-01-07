@@ -7,10 +7,11 @@ use PHPUnit\Framework\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Placeholder for unit tests.
+     * This file will be replaced with actual unit tests.
      */
-    public function test_that_true_is_true(): void
+    public function test_placeholder(): void
     {
-        $this->assertTrue(true);
+        $this->markTestSkipped('Placeholder test - will be replaced with actual unit tests.');
     }
 }
